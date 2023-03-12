@@ -7,6 +7,10 @@ operations for rating movies.
 
 Find a draw.io class diagram file in the `Assests` folder of this project.
 
+## Test Results
+
+![](Assets/TestResults.png)
+
 ## File Structure
 
 - Movies.Api: Web project which contains all the API layer logic, including endpoints, Swagger UI and
