@@ -7,6 +7,14 @@ operations for rating movies.
 
 Find a draw.io class diagram file in the `Assests` folder of this project.
 
+## File Structure
+
+- Movies.Api: Web project which contains all the API layer logic, including endpoints, Swagger UI and
+contracts.
+- Movies.Application: Class library which contains all the businesslayer logic and the data access layer
+logic. Includes all the service and repositorys used by this project.
+- Movies.Api.Test.Unit: Test project for the Movies.Api project.
+
 ## Evaluation of the role of object-oriented programming
 
 OOP features used include inheritance, abstraction and the use of objects and classes.
