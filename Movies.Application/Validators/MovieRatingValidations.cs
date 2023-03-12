@@ -22,6 +22,9 @@ public class MovieRatingValidator : AbstractValidator<MovieRating>
         RuleFor(r => r.MovieId)
             .MustAsync(ValidateMovieIdAsync)
             .WithMessage("No movie matched the provided id.");
+
+        RuleFor(r => r.Rating)
+            .InclusiveBetween(1, 5);
     }
 
     /// <summary>

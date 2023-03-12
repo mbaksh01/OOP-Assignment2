@@ -44,6 +44,7 @@ public class MovieRatingsController : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<MovieRatingResponse>), 200)]
     public async Task<IActionResult> GetAllRatings(CancellationToken token)
     {
+        // Get all movies.
         IEnumerable<MovieRating> movieRatings =
             await _movieRatingService.GetAllMovieRatings(token);
 

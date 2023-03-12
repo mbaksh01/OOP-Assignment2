@@ -21,6 +21,8 @@ public static class MovieRatingExtensions
         {
             MovieId = request.MovieId,
             Rating = request.Rating,
+            CreatedDate = request.CreatedDate,
+            UpdatedDate = request.UpdatedDate,
         };
     }
 
@@ -39,6 +41,8 @@ public static class MovieRatingExtensions
             Id = rating.Id,
             Rating = rating.Rating,
             MovieId = rating.MovieId,
+            CreatedDate = rating.CreatedDate,
+            UpdatedDate = rating.UpdatedDate,
         };
     }
 }
