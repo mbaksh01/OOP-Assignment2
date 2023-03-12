@@ -1,13 +1,7 @@
-using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Movies.Application.DAL;
-using Movies.Application.Models;
-using Movies.Application.Repositories;
-using Movies.Application.Repositories.Abstractions;
-using Movies.Application.Services;
-using Movies.Application.Services.Abstractions;
-using Movies.Application.Validators;
 using System.Reflection;
+using Movies.Application.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,12 +27,7 @@ builder.Services.AddSqlite<MoviesApiContext>(
             ));
 
 // Add services to the container.
-builder.Services
-    .AddScoped<IMovieRepository, MovieRepository>()
-    .AddScoped<IMovieRatingRepository, MovieRatingRepository>()
-    .AddScoped<IMovieService, MovieService>()
-    .AddScoped<IMovieRatingService, MovieRatingService>()
-    .AddScoped<IValidator<MovieRating>, MovieRatingValidator>();
+builder.Services.AddApplication();
 
 // Build all services.
 var app = builder.Build();
