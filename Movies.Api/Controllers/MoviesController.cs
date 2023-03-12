@@ -42,13 +42,16 @@ public class MoviesController : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<MovieResponse>), 200)]
     public async Task<IActionResult> GetMovies(CancellationToken token)
     {
+        // Gets all the movies from the database.
         IEnumerable<Movie> movies = await _movieService.GetAllMoviesAsync(token);
 
+        // If no movies exist then return a static instance of a list.
         if (!movies.Any())
         {
             return Ok(Enumerable.Empty<MovieResponse>());
         }
 
+        // If movies do exist, create list of response objects and add movies.
         List<MovieResponse> response = new();
 
         foreach (var movie in movies)
@@ -56,6 +59,7 @@ public class MoviesController : ControllerBase
             response.Add(movie.ToResponse());
         }
 
+        // Return 200 OK with the found movies.
         return Ok(response);
     }
 
@@ -79,13 +83,16 @@ public class MoviesController : ControllerBase
         Guid id,
         CancellationToken token)
     {
+        // Gets a movie by its id.
         Movie? movie = await _movieService.GetMovieByIdAsync(id, token);
 
+        // If the movie is null then it was not found.
         if (movie is null)
         {
             return NotFound($"No movie matched the given id of '{id}'");
         }
 
+        // Return 200 OK with the movie as a response.
         return Ok(movie.ToResponse());
     }
 
@@ -109,12 +116,16 @@ public class MoviesController : ControllerBase
         MovieRequest request,
         CancellationToken token)
     {
+        // Convert the request to a movie.
         Movie movie = request.ToMovie();
 
+        // Add the movie to the database.
         movie = await _movieService.CreateMovieAsync(movie, token);
 
+        // Convert the movie to a response.
         MovieResponse response = movie.ToResponse();
 
+        // Return 201 Created with the response and the location.
         return CreatedAtAction(
             nameof(GetMovieById),
             new { id = response.Id },
@@ -144,17 +155,22 @@ public class MoviesController : ControllerBase
         MovieRequest request,
         CancellationToken token)
     {
+        // Convert the request to a movie.
         Movie movie = request.ToMovie();
 
+        // Set the id with the provided id.
         movie.Id = id;
 
+        // Try to update the movie.
         Movie? response = await _movieService.UpdateMovieAsync(movie, token);
 
+        // If response is null then the movie was not found.
         if (response is null)
         {
             return NotFound($"No movie matched the given id of '{id}'");
         }
 
+        // Return 204 No Content if the operation was successfull.
         return NoContent();
     }
 
@@ -177,13 +193,16 @@ public class MoviesController : ControllerBase
         Guid id,
         CancellationToken token)
     {
+        // Deletes a movie by its id.
         bool response = await _movieService.DeleteMovieByIdAsync(id, token);
 
+        // If the response was false then the movie was not found.
         if (!response)
         {
             return NotFound($"No movie matched the given id of '{id}'");
         }
 
+        // If the operation was successful then 204 No Content is returned.
         return NoContent();
     }
 }

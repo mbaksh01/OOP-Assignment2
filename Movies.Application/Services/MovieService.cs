@@ -44,13 +44,16 @@ public class MovieService : IMovieService
         Movie movie,
         CancellationToken token = default)
     {
+        // Find the old movie in the database.
         Movie? oldMovie = await _movieRepository.GetMovieByIdAsync(movie.Id, token);
 
+        // If the old movie is null then the movie did not exist so return null.
         if (oldMovie is null)
         {
             return null;
         }
 
+        // Update the movie in the database.
         return await _movieRepository.UpdateMovieAsync(movie, token);
     }
 

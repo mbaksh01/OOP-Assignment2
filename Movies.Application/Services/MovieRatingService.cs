@@ -39,13 +39,16 @@ public class MovieRatingService : IMovieRatingService
         MovieRating rating,
         CancellationToken token = default)
     {
+        // Checks the movie raing is a valid object.
         ValidationResult validationResult = await _validator.ValidateAsync(rating, token);
 
+        // If it is invalid return not found.
         if (!validationResult.IsValid)
         {
             return new NotFound();
         }
 
+        // Create the movie rating in the database.
         return await _repository.CreateMovieRating(rating, token);
     }
 
@@ -70,13 +73,16 @@ public class MovieRatingService : IMovieRatingService
         int rating,
         CancellationToken token = default)
     {
+        // Get the old movie rating.
         MovieRating? oldRating = await _repository.GetMovieRatingById(id, token);
 
+        // If no rating existed then return null.
         if (oldRating is null)
         {
             return null;
         }
 
+        // Map the old rating to the new rating.
         MovieRating newRating = new()
         {
             Id = id,
@@ -85,6 +91,7 @@ public class MovieRatingService : IMovieRatingService
             Rating = rating
         };
 
+        // Update the rating.
         return await _repository.UpdateMovieRating(newRating, token);
     }
 }

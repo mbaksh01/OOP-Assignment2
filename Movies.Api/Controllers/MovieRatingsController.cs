@@ -48,11 +48,15 @@ public class MovieRatingsController : ControllerBase
         IEnumerable<MovieRating> movieRatings =
             await _movieRatingService.GetAllMovieRatings(token);
 
+        // If no movies exist return an static empty list.
         if (!movieRatings.Any())
         {
+            // Return 200 OK with a list of responses.
             return Ok(Enumerable.Empty<MovieRatingResponse>());
         }
 
+        // If movie ratings do exist create a list of responses and add the
+        // converted movies.
         List<MovieRatingResponse> response = new();
 
         foreach (var movieRating in movieRatings)
@@ -60,6 +64,7 @@ public class MovieRatingsController : ControllerBase
             response.Add(movieRating.ToResponse());
         }
 
+        // Return 200 OK with a list of responses.
         return Ok(response);
     }
 
@@ -84,14 +89,17 @@ public class MovieRatingsController : ControllerBase
         Guid id,
         CancellationToken token)
     {
+        // Gets the movie rating linked to the prodided details.
         MovieRating? rating =
             await _movieRatingService.GetMovieRatingById(id, token);
 
+        // If no movie rating was found then return 404 Not Found.
         if (rating is null)
         {
             return NotFound($"No movie rating matched the given id of '{id}'.");
         }
 
+        // If the movie was found return the movie rating as a response.
         return Ok(rating.ToResponse());
     }
 
@@ -119,11 +127,15 @@ public class MovieRatingsController : ControllerBase
         MovieRatingRequest request,
         CancellationToken token)
     {
+        // Converts request to rating.
         MovieRating rating = request.ToRating();
 
+        // Tries to create the rating.
         OneOf<MovieRating, NotFound> createRatingResult =
             await _movieRatingService.CreateMovieRating(rating, token);
 
+        // Returns the a HTTP response based on the result. 201 Created if
+        // successful otherwise 400 Bad Request.
         return createRatingResult.Match<IActionResult>(
             movieRating
                 => CreatedAtAction(
@@ -159,14 +171,17 @@ public class MovieRatingsController : ControllerBase
         [FromBody]int rating,
         CancellationToken token)
     {
+        // Tries to update a rating.
         MovieRating? response =
             await _movieRatingService.UpdateMovieRating(id, rating, token);
 
+        // If the response is null the rating was not found.
         if (response is null)
         {
             return NotFound($"No movie rating matched the given id of '{id}'.");
         }
 
+        // Return no content is the operation successfully completed.
         return NoContent();
     }
 
@@ -191,13 +206,16 @@ public class MovieRatingsController : ControllerBase
         Guid id,
         CancellationToken token)
     {
+        // Tried to delete a movie rating.
         bool response = await _movieRatingService.DeleteMovieRating(id, token);
 
+        // If false is return then the movie rating was not found.
         if (!response)
         {
             return NotFound($"No movie rating matched the given id of '{id}'.");
         }
 
+        // If the operation was succesful then no content is returned.
         return NoContent();
     }
 }
