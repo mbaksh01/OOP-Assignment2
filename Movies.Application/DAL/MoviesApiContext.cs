@@ -17,12 +17,13 @@ public class MoviesApiContext : DbContext
 
     /// <summary>
     /// Movies <see cref="DbSet{TEntity}"/> used to track and manage all movies.
+    /// Represents the Movies table in the database.
     /// </summary>
     public DbSet<Movie> Movies { get; set; }
 
     /// <summary>
     /// Movie ratings <see cref="DbSet{TEntity}"/> used to track and manage all
-    /// movie ratings.
+    /// movie ratings. Respresents the movie ratings table in the database.
     /// </summary>
     public DbSet<MovieRating> Ratings { get; set; }
 }
