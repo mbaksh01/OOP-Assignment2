@@ -3,6 +3,10 @@
 A web API project which can be used to perform CRUD operations on movie objects. Also supports CRUD
 operations for rating movies.
 
+## Class Diagram
+
+Find a draw.io class diagram file in the `Assests` folder of this project.
+
 ## Evaluation of the role of object-oriented programming
 
 OOP features used include inheritance, abstraction and the use of objects and classes.
